@@ -11,58 +11,134 @@ class Main {
 
     Scanner scanner = new Scanner(System.in); 
 
-    int total = 3000;
-    BufferedWriter output = null;
+    System.out.println("--SORTS--\n"); 
 
-    try {
+    System.out.println("Cuantos numeros quieres que el archivo tenga?"); 
 
-      File file = new File("numbers.txt");
-      
-      output = new BufferedWriter(new FileWriter(file));
+    int cantTotal = scanner.nextInt(); 
 
-      int line;
+    int opcion1 = 0;
 
-      Random random = new Random();
+    int total = cantTotal;
 
-      while (total > 0) {
+    File file = null;
 
-        line = random.nextInt(1000);
-        output.write(Integer(line).toString());
-        output.newLine();
-        total--;
+    Integer[] database = new Integer[total];; 
 
+    boolean test = false;
+
+    while(!test){
+
+      System.out.println("\nQuieres crear un .txt con  numeros ordenados o desordenados?\n1. Desordenados \n2. Ordenados");
+
+      opcion1 = scanner.nextInt(); 
+
+      if(opcion1 == 1){
+        try {
+          BufferedWriter output = null;
+
+          file = new File("numbers.txt");
+          
+          output = new BufferedWriter(new FileWriter(file));
+
+          int tempLine2 = 0;
+          int line;
+
+          Random random = new Random();
+
+          while (total > 0) {
+
+            line = random.nextInt(1000);
+            database[tempLine2] = Integer.valueOf(line);
+            tempLine2 = tempLine2 +1;
+            output.write(new Integer(line).toString());
+            output.newLine();
+            total--;
+            test = true;
+          }
+          output.close();
+        }catch (IOException e) {
+          e.printStackTrace();
+          System.exit(0);
+        }
+        
+
+      }else if (opcion1 == 2){
+        try {
+          BufferedWriter output = null;
+
+          file = new File("numbers.txt");
+          
+          output = new BufferedWriter(new FileWriter(file));
+          int line = 0;
+
+          while (total > 0) {
+
+            database[line] = Integer.valueOf(line);
+            output.write(new Integer(line).toString());
+            line = line + 1;
+            output.newLine();
+            total--;
+            test = true;
+          }
+          output.close();
+
+        }catch (IOException e) {
+          e.printStackTrace();
+          System.exit(0);
+        }
       }
-      output.close();
-    } catch (IOException e) {
-      e.printStackTrace();
-      System.exit(0);
+      
+
     }
 
+    
     int opcion = 0;
 
     while(opcion != 6){
 
-      System.out.println("Con qué sort quieres ordenar los 3000 números?\n1. Bubble Sort\n2.Gnome Sort\n3. Merge Sort\n4.Quick Sort\n5.Radix Sort\n6. SALIR");
+      System.out.println("\nCon qué sort quieres ordenar los números?\n1. Bubble Sort\n2. Gnome Sort\n3. Merge Sort\n4. Quick Sort\n5. Radix Sort\n6. SALIR");
 
       opcion = scanner.nextInt(); 
+      Sort sortMethods = new Sort();
+      Integer[] tComparable = new Integer[cantTotal];
 
-      switch(opcion){
+      if(opcion == 1){
+        tComparable = sortMethods.bubbleSort(database);
+      }else if(opcion == 2){
 
-        case 1:{
-          BubbleSort bubble = new BubbleSort();
-        }case 2:{
-          GnomeSort gnome = new GnomeSort();
-        }case 3:{
-          MergeSort merge = new MergeSort();
-        }case 4:{
-          QuickSort quick = new QuickSort();
-        }case 5:{
-          RadixSort radix = new RadixSort();
-        }case 6:{
-          System.out.println("Adios."); 
-        }
+      }else if(opcion == 3){
+
+      }else if(opcion == 4){
+
+      }else if(opcion == 5){
+
+      }else if(opcion == 6){
+        System.out.println("Adios."); 
+        System.exit(0); 
+
+      }
+
+      try {
         
+        BufferedWriter output = null;
 
+        File newFile = new File("ordered.txt");
+        
+        output = new BufferedWriter(new FileWriter(newFile));
+
+        for(int i = 0; i < tComparable.length; i++){
+
+          Integer tempNumber = tComparable[i];
+          output.write(tempNumber.toString());
+          output.newLine();
+
+        }
+        output.close();
+
+      }catch (IOException e) {
+        e.printStackTrace();
+        System.exit(0);
       }
 
 

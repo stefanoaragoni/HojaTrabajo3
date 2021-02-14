@@ -144,37 +144,45 @@ class Sort{
    * @return Integer[] Listado ordenado
    */
   public Integer[] QuickSort(Integer[] database, int primero, int ultimo){
-
-    if(primero < ultimo){
-      /**El largo de la base de datos permite aplicar sort */
-      int Index = 0;
-
-      //Se debe de definir el index para comenzar el quick sort
-      Integer Pivote = database[ultimo];
-      primero = (ultimo - 1);
-      for(int i = 0; i < ultimo; i++){
-        if(database[i].compareTo(Pivote) < Pivote){
-
-          primero++;
-
-          int variable_temporal = database[primero];
-          database[primero] = database[i];
-          database[i] = variable_temporal;
-        }
+    int i,j,pivote,variable_temporal;
+    i = primero;
+    j = ultimo;
+    pivote = database[(primero + ultimo) / 2]; // Se toma la posicion en el medio del arreglo
+    while( i <= j){
+      while(database[i] < pivote){
+        i++;
+      } 
+      while(database[j] > pivote){
+        j--;
       }
-
-      int variable_temporal_2 = database[primero + 1];
-      database[primero + 1] = database[ultimo];
-      database[ultimo] = variable_temporal_2;
-
-      Index = primero;
-
-      /**Ahora que ya se sabe cual es el index por el cual comienza el programa se 
-       * realiza la recursividad para ordenar. 
+      /**Ahora que las posiciones cambian a se necesita hacer la comparacion 
+       * y el intercambio respectivo.
        */
+      if(i <= j){
+        //se verifican los datos en las posiciones i y en la posicion j.
+        variable_temporal = database[i];
+        database[i] = database[j];
+        database[j] = variable_temporal;
+        i++;
+        j--;
+      }
+    }
 
-      QuickSort(database, primero, Index -1);
-      QuickSort(database, Index -1, ultimo);
+    /**
+     * Se realiza la comparación de la variable primero con el index j del arreglo
+     * así como la posicion i con el mismo arreglo para saber que tipo de recursividad
+     * se debe de aplicar. Si primero es menor que j se aplica recursividad desde la 
+     * primera posicion hasta el index j del arreglo. Si i es menor que ultimo se 
+     * aplica la recursividad desde el index i hasta la ultima posicion del arreglo. 
+     */
+    
+    if(primero < j){
+      //Si la primera posicion es menor a la posicion j de database
+      //Se aplica recursividad
+
+      QuickSort(database, primero, j);
+    }if(i < ultimo){
+      QuickSort(database, i, ultimo);
     }
 
     return database;

@@ -158,7 +158,7 @@ class Main {
         tComparable = sortMethods.MergeSort(database);
 
       }else if(opcion == 4){ //Quick
-        tComparable = sortMethods.QuickSort(database, 0, database.length - 1);
+        tComparable = sortMethods.QuickSort(database, 0, (database.length - 1));
 
       }else if(opcion == 5){ //Radix
         tComparable = sortMethods.RadixSort(database);

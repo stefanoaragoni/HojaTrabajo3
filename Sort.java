@@ -138,20 +138,62 @@ class Sort{
   
   /**
    * @author Marco Jurado 
-   * @param database
+   * @param database base de datos 
+   * @param primero primera posicion del arreglo
+   * @param ultimo ultima posicion del arreglo
    * @return Integer[] Listado ordenado
    */
-  public void QuickSort(){
+  public Integer[] QuickSort(Integer[] database, int primero, int ultimo){
 
+    if(primero < ultimo){
+      /**El largo de la base de datos permite aplicar sort */
+      int Index = 0;
+
+      //Se debe de definir el index para comenzar el quick sort
+      Integer Pivote = database[ultimo];
+      primero = (ultimo - 1);
+      for(int i = 0; i < ultimo; i++){
+        if(database[i].compareTo(Pivote) < Pivote){
+
+          primero++;
+
+          int variable_temporal = database[primero];
+          database[primero] = database[i];
+          database[i] = variable_temporal;
+        }
+      }
+
+      int variable_temporal_2 = database[primero + 1];
+      database[primero + 1] = database[ultimo];
+      database[ultimo] = variable_temporal_2;
+
+      Index = primero;
+
+      /**Ahora que ya se sabe cual es el index por el cual comienza el programa se 
+       * realiza la recursividad para ordenar. 
+       */
+
+      QuickSort(database, primero, Index -1);
+      QuickSort(database, Index -1, ultimo);
+    }
+
+    return database;
   }
 
-  
+
+
+
+
+
   /**
    * @author Marco Jurado 
    * @param database
    * @return Integer[] Listado ordenado
    */
-  public void RadixSort(){
+  public Integer[] RadixSort(Integer[] database){
+
+ 
+   return database; 
 
   }
 

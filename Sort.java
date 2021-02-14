@@ -192,6 +192,44 @@ class Sort{
    */
   public Integer[] RadixSort(Integer[] database){
 
+    int x,i,j;
+
+    for(x = Integer.SIZE - 1; x >= 0; x--){
+      Integer[] bucket = new Integer[database.length];
+      j= 0;
+      for(i = 0; i < database.length; i++){
+        boolean mover = database[i] << x >= 0;
+        // devuelve el boolean si es necesario mover o no el dato
+        //Se utiliza el compare para saber si los numeros son menores, mayores o iguales
+        /*Tambien se utiliza el operador ternario para comparar los datos en mover. Se realizo una pequeña investigacion
+          sobre como se debe de utilizar este operador. 
+          
+            resultado = (condicion) ? valor1 : valor2*/
+
+        if(x == 0 ? !mover:mover){
+          //Si el valor de x es igual a 0 al revisar en los dos operadores mover 
+
+          //Se pone la posicion i de database en la bucket.
+          bucket[j] = database[i];
+          j++;
+        }else{
+          //En caso de no ser verdadero, se asigna la posicion i de database en la posicion i - j del mismo arreglo. 
+          database[i - j] = database[i];
+        }
+
+        /**Con esto se busca ordanar en tipo de fichero para que sea más rápido el ordenamiento.  */
+
+        
+
+      }
+
+      for(i = j; i < bucket.length; i++){
+        //Se copian los datos del bucket a base de datos
+        bucket[i] = database[i - j];
+      }
+      database = bucket;
+    }
+
  
    return database; 
 

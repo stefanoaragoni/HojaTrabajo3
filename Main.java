@@ -152,12 +152,16 @@ class Main {
       if(opcion == 1){ //Bubble
         tComparable = sortMethods.bubbleSort(database);
       }else if(opcion == 2){ //Gnome
+        tComparable = sortMethods.GnomeSort(database);
 
       }else if(opcion == 3){ //Merge
+        tComparable = sortMethods.MergeSort(database);
 
       }else if(opcion == 4){ //Quick
+        tComparable = sortMethods.QuickSort(database, 0, database.length - 1);
 
       }else if(opcion == 5){ //Radix
+        tComparable = sortMethods.RadixSort(database);
 
       }else if(opcion == 6){ //Salir
         System.out.println("Adios."); 

@@ -1,3 +1,10 @@
+import javax.naming.ldap.LdapContext;
+
+import org.graalvm.compiler.nodes.spi.ArrayLengthProvider;
+import org.graalvm.compiler.replacements.nodes.ArrayRegionEqualsNode;
+
+import jdk.internal.net.http.frame.DataFrame;
+
 /*******************************************************
 * Universidad del Valle de Guatemala
 * Algoritmos y Estructuras de Datos
@@ -82,57 +89,81 @@ class Sort{
    */
   public Integer[] MergeSort(Integer[] database){
 
+    Integer[] bucket = new Integer[database.length];
+
+    int mitad = database.length / 2;
+    Integer[] Izquierda = new Integer[mitad];
+    Integer[] Derecha; // No se define de una vez pues hay que crear primero izquierda para saber el tamaño de derecha.
+
     /**
-     * Cabe mencionar que este tipo de sort es recursivo.
+     * Pimero se verifica si el tamaño del arreglo de base de datos
+     * es menor o igual a 1 pues de este modo no se aplica el merge sort
+     */ 
+    if(database.length <= 1){
+      return database; //Se devuelve pues no se puede aplicar merge.
+    }
+
+    if(database.length % 2 == 0){
+      //Si el arreglo contiene una cantidad par de elementos
+      Derecha = new Integer[mitad];
+    }else{
+      //El arreglo es impar y no se puede generar con tamaño de mitad. Debe ser mitad + 1.
+      Derecha = new Integer[mitad + 1];
+    }
+
+    /**
+     * Con los arreglos que serviran para ubicar las mitades se procede a realizar la comparacion
+     * para así ubicar a los elementos. 
      */
 
-    int medio = database.length / 2;
-
-    /**Se crearan dos arreglos los cuales serviran para 
-     * que se dividan los datos y se puedan realizar las comparaciones en ambos lados.
-     */
-    
-    Integer[] Izquierda = new Integer[medio];
-    Integer[] Derecha = new Integer[database.length - medio];
-
-    for(int i = 0; i < medio; i++){
-      //Se especifican que las posiciones en el arrgelo son las mismas que en la base de datos. 
+     for(int i = 0; i < mitad; i++){
+      //Se recorre la mitad del arreglo 
       Izquierda[i] = database[i];
+      //Se pasan los datos de el arreglo original a el arreglo del lado izquierdo. 
     }
-    for(int i = 0; i < medio; i++){
-      //Se especifican que las posiciones en el arrgelo son las mismas que en la base de datos. 
-      Derecha[i - medio] = database[i];
+    for(int j = 0; j < Derecha.length; j++){
+      //Se recorre la mitad del arreglo 
+      Derecha[j] = database[mitad + j];
+      //Se pasan los datos de el arreglo original a el arreglo del lado derecho. 
     }
+    
 
-    MergeSort(Izquierda);
-    MergeSort(Derecha);
+    /**
+     * Se realiza la recursividad para realizar el merge sort de ambos lados 
+     */
 
-    //Ahora se juntan todas las piezas
+     Izquierda = MergeSort(Izquierda);
+     Derecha = MergeSort(Derecha);
 
-    int a = 0;
-    int b = 0;
-    int c = 0;
+     int i = 0;
+     int j = 0;
+     int k = 0;
+     while(Izquierda.length != j && Derecha.length != k){
+       if(Izquierda[j] < Derecha[k]){
+        database[i] = Izquierda[j];
+        i++;
+        j++;
+       }else{
+         database[i] = Derecha[k];
+         i++;
+         k++;
+       }
+      
+     }
 
-    while(a < Izquierda.length && b < Derecha.length){
-      if(Izquierda[a].compareTo(Derecha[b]) <= Derecha[b]){
-        database[c++] = Izquierda[a++];
-      }
-      else {
-        database[c++] = Derecha[b++];
-      }
-      }
-      while (a < Izquierda.length) {
-        database[c++] = Izquierda[a++];
-      }
-      while (b < Derecha.length) {
-        database[c++] = Derecha[b++];
-      }
+     //Arreglo Final Ordenado
+     while(Izquierda.length != j){
+      database[i] = Izquierda[j];
+      i++;
+      j++;
+     }
+     while(Derecha.length != k){
+       database[i] = Derecha[k];
+       i++;
+       k++;
+     }
 
-      /**
-       * Ahora que todas las piezas estan juntas se devuelve la base de datos ordenada
-       */
-
-       return database;
+     return database;
     }
 
   
@@ -175,7 +206,7 @@ class Sort{
      * primera posicion hasta el index j del arreglo. Si i es menor que ultimo se 
      * aplica la recursividad desde el index i hasta la ultima posicion del arreglo. 
      */
-    
+
     if(primero < j){
       //Si la primera posicion es menor a la posicion j de database
       //Se aplica recursividad

@@ -49,34 +49,30 @@ class Sort{
    * @return Integer[] Listado ordenado
    */
   public Integer[] GnomeSort(Integer[] database){
+    for(int i = 1; i < database.length;){
+      // recorre toda la base de datos desde la primra posicion 
 
-    int index = 0; //Se define un index para ubicarse en el listado
+      if(database[i - 1] <= database[i]){
+        //Si el numero en la posicion anterior no es más grande
+        i++;
+      }else{
+        //Si el numero en la posicion anterior es más grande 
+        int variable_temporal_posicion;
+        //Se guarda la posiion anterior del arreglo en la variable temporal de posicion.
 
-    while(index < database.length){
-      if(index == 0){
-        //El index es 0, avanza a siguiente elemento
-        index++;
+        variable_temporal_posicion = database[i - 1];
+        database[i - 1] = database[i];
+        database[i] = variable_temporal_posicion;
+        i--;
+
       }
-      if(database[index].compareTo(database[index - 1]) >= database[index - 1] ){
-        //El elemento en el cual se encuentra el index es mayor o igual que el anterior. Continua
-        index++;
-      }
-      else{
-        //El elemento en el que se encuentra debe de ser ordenado
-        int variable_temporal = 0; //Variable que sirve para guardar la posicion que se evalua
 
-        variable_temporal = database[index];
-        database[index] = database[index - 1]; // se mueve el elemento pues a la posicion menor
-        database[index - 1] = variable_temporal; // Se pone el elemento de la posicion anterior en la siguiente, pues es mayor. 
-        index--;
 
+      if(i == 0){
+        i= 1;
       }
     }
     
-    /**
-     * Una vez se encuentran ordenados los elementos se procede a devolver el arreglo. 
-     */
-
     return database;
 
   }
